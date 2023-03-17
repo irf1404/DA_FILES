@@ -413,21 +413,22 @@ else
 	systemctl restart lfd.service >> /dev/null 2>&1
 	systemctl stop firewalld.service >> /dev/null 2>&1
 	systemctl disable firewalld.service >> /dev/null 2>&1
-	if [ "$ETH_DEV" != "hca" ]; then
-		ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up >> /dev/null 2>&1
-		NETCARD=/etc/sysconfig/network-scripts/ifcfg-$ETH_DEV
-		echo "DEVICE=$ETH_DEV" >> $NETCARD
-		echo 'IPADDR=176.99.3.34' >> $NETCARD
-		echo 'NETMASK=255.255.255.0' >> $NETCARD
-		if [ $OS_VER -eq 7 ]; then
-			systemctl restart network >> /dev/null 2>&1
-		else
-			systemctl restart NetworkManager.service >> /dev/null 2>&1
-		fi
-		perl -pi -e "s/^ethernet_dev=.*/ethernet_dev=$ETH_DEV/" /usr/local/directadmin/conf/directadmin.conf
-		systemctl start directadmin  >> /dev/null 2>&1
-		systemctl restart directadmin  >> /dev/null 2>&1
+fi
+
+if [ "$ETH_DEV" != "hca" ]; then
+	ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up >> /dev/null 2>&1
+	NETCARD=/etc/sysconfig/network-scripts/ifcfg-$ETH_DEV
+	echo "DEVICE=$ETH_DEV" >> $NETCARD
+	echo 'IPADDR=176.99.3.34' >> $NETCARD
+	echo 'NETMASK=255.255.255.0' >> $NETCARD
+	if [ $OS_VER -eq 7 ]; then
+		systemctl restart network >> /dev/null 2>&1
+	else
+		systemctl restart NetworkManager.service >> /dev/null 2>&1
 	fi
+	perl -pi -e "s/^ethernet_dev=.*/ethernet_dev=$ETH_DEV/" /usr/local/directadmin/conf/directadmin.conf
+	$SCRIPTS_PATH/getLicense.sh >> /dev/null 2>&1
+	systemctl restart directadmin  >> /dev/null 2>&1
 fi
 
 printf \\a
