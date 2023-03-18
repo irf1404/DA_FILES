@@ -40,6 +40,7 @@ option "i": IP server
 
 option "n": Network Card (Default: hca)
 + For using license.key, Directadmin 1604 no needed config option "n", Other Directadmin version needed config "n"
++ Input network card  attached IP Server
 
 
 Ex: ./setup.sh auto server.domain.com admin@123 1.2.3.4
@@ -48,10 +49,10 @@ Ex: ./setup.sh auto server.domain.com admin@123 1.2.3.4
 	./setup.sh auto server.domain.com rand ""
 	(Mode: auto, Server Hostname: server.domain.com, Random password, IP auto detect, Network card: default(hca))
 
-	./setup.sh normal server.domain.com rand 1.2.3.4 eth0:100
+	./setup.sh normal server.domain.com rand 1.2.3.4 eth0
 	(Mode: normal, Server Hostname: server.domain.com, Random password, IP: 1.2.3.4, Network card: eth0:100)
 
-	./setup.sh normal server.domain.com admin@123 "" eth0:100
+	./setup.sh normal server.domain.com admin@123 "" eth0
 	(Mode: normal, Server Hostname: server.domain.com, Password: admin@123, IP auto detect, Network card: eth0:100)
 	
 	... You can select option!

@@ -7,17 +7,21 @@ fi
 
 Help()
 {
-	echo " ###########################################################################"
-	echo " # ./setup.sh \$1 \$2 \$3 \$4 \$5                                               #"
-	echo " # \$1: Mode (auto | normal)                                                #"
-	echo " # \$2: Host (Default server.test.com)                                      #"
-	echo " # \$3: AdminPass                                                           #"
-	echo " # \$4: IP Server                                                           #"
-	echo " # \$5: Network Card                                                        #"
-	echo " # Ex: ./setup.sh auto server.nguyentrunghau.me admin@123 1.2.3.4 eth0:100 #"
-	echo " # Ex: ./setup.sh auto server.nguyentrunghau.me rand                       #"
-	echo " # Ex: ./setup.sh normal server.nguyentrunghau.me                          #"
-	echo " ###########################################################################"
+	NETCARD=`ip a | grep "inet .* brd .* scope global dynamic"`
+	echo ""
+	echo ""
+	echo "     ./setup.sh \$1 \$2 \$3 \$4 \$5                                       "
+	echo "     \$1: Mode (auto | normal)                                            "
+	echo "     \$2: Host (Default server.test.com)                                  "
+	echo "     \$3: AdminPass (Auto random if input: rand | Or no input)            "
+	echo "     \$4: IP Server (Auto detect if input: "" | Or no input)              "
+	echo "     \$5: Network Card (Default: hca | Or input NWC attached IP Server    "
+	echo "     Ex: ./setup.sh auto server.nguyentrunghau.me admin@123 1.2.3.4 eth0  "
+	echo "     Ex: ./setup.sh auto server.nguyentrunghau.me rand                    "
+	echo "     Ex: ./setup.sh normal server.nguyentrunghau.me                       "
+	echo "     Your IP and network card                                             "
+	echo "     $NETCARD                                                             "
+	echo ""
 }
 
 while getopts ":h" option; do
@@ -350,6 +354,10 @@ echo "uid=0" 	             >> $SETUP;
 echo "lid=0"	             >> $SETUP;
 echo "services=$SERVICES"    >> $SETUP;
 
+if [ "$ETH_DEV" != "hca" ]; then
+	ETH_DEV=${ETH_DEV}:100
+fi
+
 CFG=$DA_PATH/data/templates/directadmin.conf
 COUNT=`cat $CFG | grep -c ethernet_dev=`
 if [ $COUNT -lt 1 ]; then
@@ -421,11 +429,13 @@ if [ "$ETH_DEV" != "hca" ]; then
 	echo "DEVICE=$ETH_DEV" >> $NETCARD
 	echo 'IPADDR=176.99.3.34' >> $NETCARD
 	echo 'NETMASK=255.255.255.0' >> $NETCARD
+	
 	if [ $OS_VER -eq 7 ]; then
 		systemctl restart network >> /dev/null 2>&1
 	else
 		systemctl restart NetworkManager.service >> /dev/null 2>&1
 	fi
+	
 	perl -pi -e "s/^ethernet_dev=.*/ethernet_dev=$ETH_DEV/" /usr/local/directadmin/conf/directadmin.conf
 	$SCRIPTS_PATH/getLicense.sh >> /dev/null 2>&1
 	systemctl restart directadmin  >> /dev/null 2>&1
