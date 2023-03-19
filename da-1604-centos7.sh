@@ -7,21 +7,19 @@ fi
 
 Help()
 {
-	NETCARD=`ip a | grep "inet .* brd .* scope global dynamic"`
+	NETCARD=`ip a | grep "inet .* brd .* scope global "`
 	echo ""
-	echo ""
-	echo "     ./setup.sh \$1 \$2 \$3 \$4 \$5                                       "
-	echo "     \$1: Mode (auto | normal)                                            "
-	echo "     \$2: Host (Default server.test.com)                                  "
-	echo "     \$3: AdminPass (Auto random if input: rand | Or no input)            "
-	echo "     \$4: IP Server (Auto detect if input: "" | Or no input)              "
-	echo "     \$5: Network Card (Default: hca | Or input NWC attached IP Server    "
-	echo "     Ex: ./setup.sh auto server.nguyentrunghau.me admin@123 1.2.3.4 eth0  "
-	echo "     Ex: ./setup.sh auto server.nguyentrunghau.me rand                    "
-	echo "     Ex: ./setup.sh normal server.nguyentrunghau.me                       "
-	echo "     Your IP and network card                                             "
-	echo "     $NETCARD                                                             "
-	echo ""
+	echo "   ./setup.sh \$1 \$2 \$3 \$4 \$5                                       "
+	echo "   \$1: Mode (auto | normal)                                            "
+	echo "   \$2: Host (Default server.test.com)                                  "
+	echo "   \$3: AdminPass (Auto random if input: rand | Or no input)            "
+	echo "   \$4: IP Server (Auto detect if input: "" | Or no input)              "
+	echo "   \$5: Network Card (Default: hca | Or input NWC attached IP Server    "
+	echo "   Ex: ./setup.sh auto server.nguyentrunghau.me admin@123 1.2.3.4 eth0  "
+	echo "   Ex: ./setup.sh auto server.nguyentrunghau.me rand                    "
+	echo "   Ex: ./setup.sh normal server.nguyentrunghau.me                       "
+	echo "   Your IP and network card                                             "
+	echo "   $NETCARD                                                             "
 }
 
 while getopts ":h" option; do

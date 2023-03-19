@@ -7,7 +7,7 @@ fi
 
 Help()
 {
-	NETCARD=`ip a | grep "inet .* brd .* scope global dynamic"`
+	NETCARD=`ip a | grep "inet .* brd .* scope global "`
 	echo ""
 	echo ""
 	echo "     ./setup.sh \$1 \$2 \$3 \$4 \$5                                       "
