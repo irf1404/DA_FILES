@@ -5,23 +5,39 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
+NAME_FILE=`grep "da.*\.sh" tmp | cut -d'/' -f7 | cut -d'.' -f1`
+
 Help()
 {
-	NETCARD=`ip a | grep "inet .* brd .* scope global "`
-	echo ""
-	echo ""
-	echo "     ./setup.sh \$1 \$2 \$3 \$4 \$5                                       "
-	echo "     \$1: Mode (auto | normal)                                            "
-	echo "     \$2: Host (Default server.test.com)                                  "
-	echo "     \$3: AdminPass (Auto random if input: rand | Or no input)            "
-	echo "     \$4: IP Server (Auto detect if input: "" | Or no input)              "
-	echo "     \$5: Network Card (Default: hca | Or input NWC attached IP Server    "
-	echo "     Ex: ./setup.sh auto server.nguyentrunghau.me admin@123 1.2.3.4 eth0  "
-	echo "     Ex: ./setup.sh auto server.nguyentrunghau.me rand                    "
-	echo "     Ex: ./setup.sh normal server.nguyentrunghau.me                       "
-	echo "     Your IP and network card                                             "
-	echo "     $NETCARD                                                             "
-	echo ""
+	NETCARD=`echo \`ip a | grep "inet .* brd .* scope global .* "\` > card && cat card`
+	echo "###################################################################################################"
+	echo "#                                                                                                 #"
+	echo "#  ./setup.sh \$1 \$2 \$3 \$4 \$5                                                                      #"
+	echo "#  \$1: Custombuild mode (auto | normal)                                                           #"
+	echo "#  \$2: Host (Default server.test.com)                                                             #"
+	echo "#  \$3: AdminPass (Auto random if input: rand)                                                     #"
+	echo "#  \$4: IP Server (Auto detect if input: detect)                                                   #"
+	echo "#  \$5: Network Card (Default: hca | Or input network card attached IP Server                      #"
+	echo "#                                                                                                 #"
+	echo "#  Ex: Install Directadmin 1604 in VPS (Do nothing)                                               #"
+	echo "#  ./setup.sh auto server.nguyentrunghau.me admin@123                                             #"
+	echo "#  + Mode: auto | Host: server.nguyentrunghau.me | Pass: admin@123 | IP auto detect | Card: hca   #"
+	echo "#                                                                                                 #"
+	echo "#  Ex: Install Directadmin version > 1604 in VPS (Set network card for run)                       #"
+	echo "#  ./setup.sh auto server.nguyentrunghau.me rand detect eth0                                      #"
+	echo "#  + Mode: auto | Host: server.nguyentrunghau.me | Pass random | IP auto detect | Card: eth0      #"
+	echo "#                                                                                                 #"
+	echo "#  @ Install Directadmin version > 1604 in Local Server (Set local IP and network card for run)   #"
+	echo "#  Ex: ./setup.sh auto server.nguyentrunghau.me admin@123 1.2.3.4 eth0                            #"
+	echo "#  + Mode: auto | Host: server.nguyentrunghau.me | Pass: admin@123 | IP: 1.2.3.4 | Card: eth0     #"
+	echo "#                                                                                                 #"
+	echo "#  @ Install Directadmin 1604 in Local Server (Set local IP for run)                              #"
+	echo "#  Ex: ./setup.sh auto server.nguyentrunghau.me rand 1.2.3.4                                      #"
+	echo "#  + Mode: auto | Host: server.nguyentrunghau.me | Pass random | IP: 1.2.3.4 | Card: hca          #"
+	echo "#                                                                                                 #"
+	echo "###################################################################################################"
+	echo "  Your version directadmin will download: $NAME_FILE"
+	echo "  Your IP and network card: $NETCARD"
 }
 
 while getopts ":h" option; do
@@ -37,7 +53,6 @@ if [ -z "${OS_VER}" ]; then
 fi
 OS_VER=`echo $OS_VER | cut -d. -f1`
 B64=`uname -m | grep -c 64`
-NAME_FILE=`grep "da.*\.sh" tmp | cut -d'/' -f7 | cut -d'.' -f1`
 
 if [ $OS_VER -eq 7 ]; then
 	yum -y install iptables wget tar gcc gcc-c++ flex bison make bind bind-libs bind-utils openssl openssl-devel perl quota libaio \
@@ -86,8 +101,6 @@ if [ "$ADMIN_PASS" = "rand" ] || [ "$ADMIN_PASS" = "" ]; then
 fi
 
 DB_ROOT_PASS=`random_pass`
-CMD_LINE=0
-
 DA_PATH=/usr/local/directadmin
 CB_OPTIONS=${DA_PATH}/custombuild/options.conf
 SCRIPTS_PATH=$DA_PATH/scripts
@@ -122,7 +135,7 @@ fi
 NM=255.255.255.0
 
 IP=$4
-if [ "$IP" = "" ]; then
+if [ "$IP" = "" ] || [ "$IP" = "detect" ]; then
 	IP=`wget -q -O - http://myip.directadmin.com`
 fi
 
