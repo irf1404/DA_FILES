@@ -40,7 +40,7 @@ option "p": Password admin
 + You can input password or input: "rand" -> for random password
 
 option "i": IP server
-+ Auto detect IP or you can input local ip server (Command: "ip a" to show local ip server)
++ Auto detect IP if input: detect | or you can input local ip server (Command: "ip a" to show local ip server)
 
 option "n": Network Card (Default: hca)
 + For using license.key, Directadmin 1604 no needed config option "n", Other Directadmin version needed config "n"
