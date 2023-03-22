@@ -139,6 +139,16 @@ if [ "$IP" = "" ] || [ "$IP" = "detect" ]; then
 	IP=`wget -q -O - http://myip.directadmin.com`
 fi
 
+memory=$(grep 'MemTotal' /proc/meminfo |tr ' ' '\n' |grep [0-9])
+
+if [ -z "$(swapon -s)" ] && [ $memory -lt 1000000 ]; then
+    fallocate -l 1G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+    echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
+fi
+
 PWD_DIR=`pwd`
 mkdir -p $CBPATH
 mkdir -p $PACKAGES

@@ -66,16 +66,8 @@ Ex: ./setup.sh auto server.domain.com admin@123 1.2.3.4
 # INSTALL SSL FOR ADMINPAGE
 ```
 # Point The Subdomain Server.XXX.YYY to IP Server (A Record)
-
-nano /usr/local/directadmin/conf/directadmin.conf
-
-# Find Key servername=ZZZ And Replace It With Server.XXX.YYY Then Save File => Ctrl + X => Y => Enter
-
-/usr/local/directadmin/scripts/letsencrypt.sh request_single Server.XXX.YYY 4096
-
-/usr/local/directadmin/directadmin set ssl_redirect_host Server.XXX.YYY
-
-systemctl restart directadmin
+wget --no-cache -O adminssl.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/adminssl.sh
+./adminssl.sh
 
 ```
 
