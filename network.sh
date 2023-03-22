@@ -10,14 +10,9 @@ fi
 OS_VER=`echo $OS_VER | cut -d. -f1`
 
 ETH_DEV=$1
-IP=$2
 
 if [ "$ETH_DEV" != "" ]; then
 	ETH_DEV=${ETH_DEV}:100
-	
-	if [ "$IP" = "" ]; then
-		IP=176.99.3.34
-	fi
 
 	ifconfig $ETH_DEV $IP netmask 255.255.255.0 up >> /dev/null 2>&1
 	NETCARD=/etc/sysconfig/network-scripts/ifcfg-$ETH_DEV
