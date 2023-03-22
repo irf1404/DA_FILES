@@ -1,7 +1,6 @@
 N@lled By: Nguyễn Trung Hậu<br>
 Email: ken.hdpro@gmail.com<br>
 Facebook: http://fb.com/haunguyenckc<br>
-Directadmin 1.604 đã được N@ll chỉ cài được cho centOS 7 64bit
 
 # INSTALL DIRECTADMIN ONLY CENTOS7 64BIT
 ```
