@@ -11,7 +11,7 @@ OS_VER=`echo $OS_VER | cut -d. -f1`
 
 ETH_DEV=$1
 IP=$2
-if [ $IP = "" ]; then
+if [ "$IP" = "" ]; then
 	IP="176.99.3.34"
 fi
 
@@ -32,7 +32,7 @@ if [ "$ETH_DEV" != "" ]; then
 
 	perl -pi -e "s/^ethernet_dev=.*/ethernet_dev=$ETH_DEV/" $DA_PATH/conf/directadmin.conf
 
-	if [ $IP = "176.99.3.34" ]; then
+	if [ "$IP" = "176.99.3.34" ]; then
 		$SCRIPTS_PATH/getLicense.sh >> /dev/null 2>&1
 	fi
 
