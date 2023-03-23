@@ -25,7 +25,11 @@ yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubuserconten
 chmod +x setup.sh
 
 
-# Run File setup.sh
+# To Get Help
+./setup.sh -h
+
+
+# To Setup
 ./setup.sh m h p i n
 
 option "m": Mode
@@ -46,20 +50,47 @@ option "n": Network Card (Default: hca)
 + Input network card  attached IP Server
 
 
-Ex: ./setup.sh auto server.domain.com admin@123 1.2.3.4
-	(Mode: auto, Server Hostname: server.domain.com, Password: admin@123, IP: 1.2.3.4, Network card: default(hca))
+Ex: Install DA 1604 in VPS (Do nothing)
+./setup.sh auto server.nguyentrunghau.me admin@123
++ Mode: auto | Host: server.nguyentrunghau.me | Pass: admin@123 | IP auto detect | Card: hca
 
-	./setup.sh auto server.domain.com rand ""
-	(Mode: auto, Server Hostname: server.domain.com, Random password, IP auto detect, Network card: default(hca))
+Ex: Install DA version > 1604 in VPS (Set network card for run)
+./setup.sh auto server.nguyentrunghau.me rand detect eth0
++ Mode: auto | Host: server.nguyentrunghau.me | Pass random | IP auto detect | Card: eth0
 
-	./setup.sh normal server.domain.com rand 1.2.3.4 eth0
-	(Mode: normal, Server Hostname: server.domain.com, Random password, IP: 1.2.3.4, Network card: eth0:100)
+Ex: Install DA version > 1604 in Local Server (Set local IP and network card for run)
+./setup.sh auto server.nguyentrunghau.me admin@123 1.2.3.4 eth0
++ Mode: auto | Host: server.nguyentrunghau.me | Pass: admin@123 | IP: 1.2.3.4 | Card: eth0
 
-	./setup.sh normal server.domain.com admin@123 "" eth0
-	(Mode: normal, Server Hostname: server.domain.com, Password: admin@123, IP auto detect, Network card: eth0:100)
+Ex: Install DA 1604 in Local Server (Set local IP for run)
+./setup.sh auto server.nguyentrunghau.me rand 1.2.3.4
++ Mode: auto | Host: server.nguyentrunghau.me | Pass random | IP: 1.2.3.4 | Card: hca
 	
-	... You can select option!
+... You can select option!
 	
+```
+
+# CONFIG NETWORK IF YOU CONFIG FAIL
+```
+# Download File And View Your VPS Network Card
+wget --no-cache -O network.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/network.sh
+chmod +x network.sh
+ip a | grep "inet .* brd .* scope global .* "
+
+# Then Enter Exactly Name Of Your Network Card Attached To The Ip Server ($1 Is Your NetworkCard Name)
+./network.sh $1
+
+
+# Ex: 
+wget --no-cache -O network.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/network.sh
+chmod +x network.sh
+ip a | grep "inet .* brd .* scope global .* "
+
+=> inet 123.123.123.123/23 brd 123.123.123.255 scope global dynamic eth0
+
+# Then
+./network.sh eth0
+
 ```
 
 # INSTALL SSL FOR ADMINPAGE
@@ -73,9 +104,9 @@ wget --no-cache -O adminssl.sh "https://raw.githubusercontent.com/irf1404/DA_FIL
 # INSTALL MULTI PHP VERSION
 ```
 cd /usr/local/directadmin/custombuild
-./build set php1_release 8.2
-./build set php2_release 7.0
-./build set php3_release 7.4
+./build set php1_release 8.1
+./build set php2_release 7.4
+./build set php3_release 7.0
 ./build set php4_release 5.6
 ./build set php1_mode lsphp
 ./build set php2_mode lsphp
