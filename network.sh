@@ -20,7 +20,7 @@ if [ "$ETH_DEV" != "" ]; then
 
 	ifconfig $ETH_DEV $IP netmask 255.255.255.0 up >> /dev/null 2>&1
 	NETCARD=/etc/sysconfig/network-scripts/ifcfg-$ETH_DEV
-	echo "DEVICE=$ETH_DEV" >> $NETCARD
+	echo "DEVICE=$ETH_DEV" > $NETCARD
 	echo "IPADDR=$IP" >> $NETCARD
 	echo 'NETMASK=255.255.255.0' >> $NETCARD
 
