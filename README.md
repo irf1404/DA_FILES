@@ -97,6 +97,7 @@ ip a | grep "inet .* brd .* scope global .* "
 ```
 # Point The Subdomain Server.XXX.YYY to IP Server (A Record)
 wget --no-cache -O adminssl.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/adminssl.sh"
+chmod +x adminssl.sh
 ./adminssl.sh
 
 ```
