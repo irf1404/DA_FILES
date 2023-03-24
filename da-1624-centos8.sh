@@ -483,4 +483,6 @@ printf \\a
 sleep 1
 printf \\a
 
+rm -rf /root/card /root/setup.sh /root/tmp /root/csf_install.sh
+
 exit ${RET}
