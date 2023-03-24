@@ -367,6 +367,14 @@ fi
 wget -O $DA_PATH/update.tar.gz ${SERVER_FILES}/files/${NAME_FILE}.tar.gz
 cd $DA_PATH;
 tar xzf update.tar.gz
+rm -rf update.tar.gz
+
+if [ ! -e $DA_PATH/directadmin ]; then
+	echo "Cannot find the DirectAdmin binary.  Extraction failed";
+	echo "";
+	exit 5;
+fi
+
 
 echo "hostname=$HOST"        >  $SETUP;
 echo "email=$EMAIL"          >> $SETUP;
@@ -396,8 +404,6 @@ chmod 600 $SETUP
 cd $SCRIPTS_PATH;
 
 ./install.sh
-
-RET=$?
 
 if [ ! -e /etc/virtual ]; then
 	mkdir /etc/virtual
