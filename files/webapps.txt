@@ -1,0 +1,9 @@
+php.ini
+post_max_size=1G
+upload_max_filesize=1G
+max_execution_time=3600
+max_input_time=3600
+memory_limit=1G
+
+config.inc.php (phpMyAdmin)
+$cfg['ExecTimeLimit'] = 3600;
