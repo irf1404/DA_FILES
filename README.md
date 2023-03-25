@@ -2,8 +2,12 @@ N@lled By: Nguyễn Trung Hậu<br>
 Email: ken.hdpro@gmail.com<br>
 Facebook: http://fb.com/haunguyenckc<br>
 
-# INSTALL DIRECTADMIN ONLY CENTOS7 64BIT
+# INSTALL DIRECTADMIN
 ```
+# Install command for Directadmin 1601 only centOS7 x64
+yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1601-centos7.sh" > tmp 2>&1
+chmod +x setup.sh
+
 # Install command for Directadmin 1604 only centOS7 x64
 yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1604-centos7.sh" > tmp 2>&1
 chmod +x setup.sh
