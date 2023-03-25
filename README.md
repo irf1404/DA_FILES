@@ -5,33 +5,26 @@ Facebook: http://fb.com/haunguyenckc<br>
 # INSTALL DIRECTADMIN
 ```
 # Install command for Directadmin 1601 only centOS7 x64
-yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1601-centos7.sh" > tmp 2>&1
-chmod +x setup.sh
+yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1601-centos7.sh" > tmp 2>&1 && chmod +x setup.sh
 
 # Install command for Directadmin 1604 only centOS7 x64
-yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1604-centos7.sh" > tmp 2>&1
-chmod +x setup.sh
+yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1604-centos7.sh" > tmp 2>&1 && chmod +x setup.sh
 
 # Install command for Directadmin 1620 only centOS7 x64
-yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1620-centos7.sh" > tmp 2>&1
-chmod +x setup.sh
+yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1620-centos7.sh" > tmp 2>&1 && chmod +x setup.sh
 
 # Install command for Directadmin 1620 only centOS8 x64
-yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1620-centos8.sh" > tmp 2>&1
-chmod +x setup.sh
+yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1620-centos8.sh" > tmp 2>&1 && chmod +x setup.sh
 
 # Install command for Directadmin 1624 only centOS7 x64
-yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1624-centos7.sh" > tmp 2>&1
-chmod +x setup.sh
+yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1624-centos7.sh" > tmp 2>&1 && chmod +x setup.sh
 
 # Install command for Directadmin 1624 only centOS8 x64
-yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1624-centos8.sh" > tmp 2>&1
-chmod +x setup.sh
+yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1624-centos8.sh" > tmp 2>&1 && chmod +x setup.sh
 
 
 # To Get Help
 ./setup.sh -h
-
 
 # To Setup
 ./setup.sh m h p i n
