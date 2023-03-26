@@ -30,6 +30,7 @@ yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubuserconten
 ./setup.sh m h p i n
 
 option "m": Mode
++ opsf: Auto setup version package (Default: Openlitespeed, PHP81, PHP74, PHP70, PHP56, Mariadb)
 + auto: Auto setup version package (Default: Openlitespeed, PHP81, Mariadb)
 + normal: You can select version package with custombuild
 

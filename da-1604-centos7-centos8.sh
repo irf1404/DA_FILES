@@ -173,11 +173,14 @@ fi
 
 chmod 755 $BUILD
 
-if [ "$1" != "auto" ]; then
-	$BUILD create_options
+if [ "$1" = "auto" ]
+	wget -O $CB_OPTIONS $SERVER_SERVICES/custombuild/mode/auto/options.conf
+	wget -O $CBPATH/php_extensions.conf $SERVER_SERVICES/custombuild/mode/auto/php_extensions.conf
+else if [ "$1" = "opsf" ]; then
+	wget -O $CB_OPTIONS $SERVER_SERVICES/custombuild/mode/opsf/options.conf
+	wget -O $CBPATH/php_extensions.conf $SERVER_SERVICES/custombuild/mode/opsf/php_extensions.conf
 else
-	wget -O $CB_OPTIONS $SERVER_SERVICES/custombuild/options.conf
-	wget -O $CBPATH/php_extensions.conf $SERVER_SERVICES/custombuild/php_extensions.conf
+	$BUILD create_options
 fi
 
 if [ $OS_VER -eq 7 ]; then
@@ -459,7 +462,7 @@ else
 	systemctl restart lfd.service >> /dev/null 2>&1
 	systemctl stop firewalld.service >> /dev/null 2>&1
 	systemctl disable firewalld.service >> /dev/null 2>&1
-	rm -rf CSF_SH
+	rm -rf $CSF_SH
 fi
 
 if [ "$ETH_DEV" != "hca" ]; then
@@ -491,6 +494,6 @@ printf \\a
 sleep 1
 printf \\a
 
-rm -rf $0
+rm -rf /root/setup.sh
 
 exit ${RET}
