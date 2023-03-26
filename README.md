@@ -70,31 +70,15 @@ Ex: Install DA 1604 in Local Server (Set local IP for run)
 # CONFIG NETWORK IF YOU CONFIG FAIL
 ```
 # Download File And View Your VPS Network Card
-wget --no-cache -O network.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/network.sh"
-chmod +x network.sh
-ip a | grep "inet .* brd .* scope global .* "
-
-# Then Enter Exactly Name Of Your Network Card Attached To The Ip Server ($1 Is Your NetworkCard Name)
-./network.sh $1
-
-
-# Ex: 
-wget --no-cache -O network.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/network.sh"
-chmod +x network.sh
-ip a | grep "inet .* brd .* scope global .* "
-
-=> inet 123.123.123.123/23 brd 123.123.123.255 scope global dynamic eth0
-
-# Then
-./network.sh eth0
+wget --no-cache -O network.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/network.sh" && chmod +x network.sh
+./network.sh
 
 ```
 
 # INSTALL SSL FOR ADMINPAGE
 ```
 # Point The Subdomain Server.XXX.YYY to IP Server (A Record)
-wget --no-cache -O adminssl.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/adminssl.sh"
-chmod +x adminssl.sh
+wget --no-cache -O adminssl.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/adminssl.sh" && chmod +x adminssl.sh
 ./adminssl.sh
 
 ```

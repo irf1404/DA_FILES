@@ -57,7 +57,7 @@ echo ""
 echo "Network Card Name: $ETH_DEV"
 echo "IP: $IP"
 
-if [ "$ETH_DEV" = "123" ]; then
+if [ "$ETH_DEV" != "" ]; then
 	ETH_DEV=${ETH_DEV}:100
 	NETCARD=/etc/sysconfig/network-scripts/ifcfg-$ETH_DEV
 	ifconfig $ETH_DEV $IP netmask 255.255.255.0 up >> /dev/null 2>&1
