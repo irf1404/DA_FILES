@@ -466,17 +466,13 @@ if [ "$ETH_DEV" != "hca" ]; then
 	echo 'IPADDR=176.99.3.34' >> $NETCARD
 	echo 'NETMASK=255.255.255.0' >> $NETCARD
 	
-	if [ $OS_VER -eq 7 ]; then
-		systemctl restart network >> /dev/null 2>&1
-	else
-		systemctl restart NetworkManager.service >> /dev/null 2>&1
-	fi
+	
 	
 	perl -pi -e "s/^ethernet_dev=.*/ethernet_dev=$ETH_DEV/" /usr/local/directadmin/conf/directadmin.conf
 	$SCRIPTS_PATH/getLicense.sh >> /dev/null 2>&1
-	systemctl restart directadmin  >> /dev/null 2>&1
+	systemctl restart directadmin >> /dev/null 2>&1
 else
-	systemctl restart directadmin  >> /dev/null 2>&1
+	systemctl restart directadmin >> /dev/null 2>&1
 fi
 
 printf \\a

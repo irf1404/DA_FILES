@@ -69,7 +69,7 @@ else
 		libcom_err-devel libcurl-devel gd zlib-devel zip unzip libcap-devel cronie bzip2 cyrus-sasl-devel perl-ExtUtils-Embed \
 		autoconf automake libtool which patch mailx bzip2-devel lsof glibc-headers kernel-devel expat-devel \
 		psmisc net-tools systemd-devel libdb-devel perl-DBI perl-libwww-perl xfsprogs rsyslog logrotate crontabs file \
-		kernel-headers hostname ipset nano network-scripts
+		kernel-headers hostname ipset nano
 fi
 
 
@@ -465,12 +465,6 @@ if [ "$ETH_DEV" != "hca" ]; then
 	echo "DEVICE=$ETH_DEV" >> $NETCARD
 	echo 'IPADDR=176.99.3.34' >> $NETCARD
 	echo 'NETMASK=255.255.255.0' >> $NETCARD
-	
-	if [ $OS_VER -eq 7 ]; then
-		systemctl restart network >> /dev/null 2>&1
-	else
-		systemctl restart NetworkManager.service >> /dev/null 2>&1
-	fi
 	
 	perl -pi -e "s/^ethernet_dev=.*/ethernet_dev=$ETH_DEV/" /usr/local/directadmin/conf/directadmin.conf
 	$SCRIPTS_PATH/getLicense.sh >> /dev/null 2>&1
