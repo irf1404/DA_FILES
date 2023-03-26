@@ -11,7 +11,6 @@ if [ ! -s tmp ]; then
 fi
 
 NAME_FILE=`grep "da.*\.sh" tmp | cut -d'/' -f7 | cut -d'.' -f1`
-rm -rf tmp
 
 Help()
 {
@@ -52,6 +51,8 @@ while getopts ":h" option; do
          exit;;
    esac
 done
+
+rm -rf tmp
 
 OS_VER=`grep -m1 -o '[0-9]*\.[0-9]*[^ ]*' /etc/redhat-release | head -n1 | cut -d'.' -f1,2`
 if [ -z "${OS_VER}" ]; then
@@ -458,7 +459,7 @@ else
 	systemctl restart lfd.service >> /dev/null 2>&1
 	systemctl stop firewalld.service >> /dev/null 2>&1
 	systemctl disable firewalld.service >> /dev/null 2>&1
-	rm -rf /root/csf_install.sh
+	rm -rf CSF_SH
 fi
 
 if [ "$ETH_DEV" != "hca" ]; then
@@ -490,6 +491,6 @@ printf \\a
 sleep 1
 printf \\a
 
-rm -rf /root/setup.sh
+rm -rf $0
 
 exit ${RET}
