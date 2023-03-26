@@ -11,10 +11,11 @@ if [ ! -s tmp ]; then
 fi
 
 NAME_FILE=`grep "da.*\.sh" tmp | cut -d'/' -f7 | cut -d'.' -f1`
+rm -rf tmp
 
 Help()
 {
-	NETCARD=`echo \`ip a | grep "inet .* brd .* scope global .* "\` > card && cat card`
+	NETCARD=`echo \`ip a | grep "inet .* brd .* scope global .* "\` > card && cat card && rm -rf card`
 	echo "###################################################################################################"
 	echo "#                                                                                                 #"
 	echo "#  ./setup.sh \$1 \$2 \$3 \$4 \$5                                                                      #"
@@ -69,7 +70,7 @@ else
 		libcom_err-devel libcurl-devel gd zlib-devel zip unzip libcap-devel cronie bzip2 cyrus-sasl-devel perl-ExtUtils-Embed \
 		autoconf automake libtool which patch mailx bzip2-devel lsof glibc-headers kernel-devel expat-devel \
 		psmisc net-tools systemd-devel libdb-devel perl-DBI perl-libwww-perl xfsprogs rsyslog logrotate crontabs file \
-		kernel-headers hostname ipset nano network-scripts
+		kernel-headers hostname ipset nano
 fi
 
 
@@ -457,26 +458,30 @@ else
 	systemctl restart lfd.service >> /dev/null 2>&1
 	systemctl stop firewalld.service >> /dev/null 2>&1
 	systemctl disable firewalld.service >> /dev/null 2>&1
+	rm -rf /root/csf_install.sh
 fi
 
 if [ "$ETH_DEV" != "hca" ]; then
-	ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up >> /dev/null 2>&1
+	# Add network card
 	NETCARD=/etc/sysconfig/network-scripts/ifcfg-$ETH_DEV
-	echo "DEVICE=$ETH_DEV" >> $NETCARD
+	ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up >> /dev/null 2>&1
+	echo "DEVICE=$ETH_DEV" > $NETCARD
 	echo 'IPADDR=176.99.3.34' >> $NETCARD
 	echo 'NETMASK=255.255.255.0' >> $NETCARD
-	
-	if [ $OS_VER -eq 7 ]; then
-		systemctl restart network >> /dev/null 2>&1
-	else
-		systemctl restart NetworkManager.service >> /dev/null 2>&1
-	fi
-	
+	echo 'ONBOOT=yes' >> $NETCARD
+
+	# Add autoboot network card
+	echo `crontab -l > file_cron_network` >> /dev/null 2>&1
+	echo "@reboot sleep 30 && sudo ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up && sudo systemctl restart directadmin" >> file_cron_network
+	crontab file_cron_network
+	rm -rf file_cron_network
+
+	# Config network card for DA
 	perl -pi -e "s/^ethernet_dev=.*/ethernet_dev=$ETH_DEV/" /usr/local/directadmin/conf/directadmin.conf
 	$SCRIPTS_PATH/getLicense.sh >> /dev/null 2>&1
-	systemctl restart directadmin  >> /dev/null 2>&1
+	systemctl restart directadmin >> /dev/null 2>&1
 else
-	systemctl restart directadmin  >> /dev/null 2>&1
+	systemctl restart directadmin >> /dev/null 2>&1
 fi
 
 printf \\a
@@ -485,6 +490,6 @@ printf \\a
 sleep 1
 printf \\a
 
-rm -rf /root/card /root/setup.sh /root/tmp /root/csf_install.sh
+rm -rf /root/setup.sh
 
 exit ${RET}

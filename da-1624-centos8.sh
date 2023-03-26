@@ -11,10 +11,11 @@ if [ ! -s tmp ]; then
 fi
 
 NAME_FILE=`grep "da.*\.sh" tmp | cut -d'/' -f7 | cut -d'.' -f1`
+rm -rf tmp
 
 Help()
 {
-	NETCARD=`echo \`ip a | grep "inet .* brd .* scope global .* "\` > card && cat card`
+	NETCARD=`echo \`ip a | grep "inet .* brd .* scope global .* "\` > card && cat card && rm -rf card`
 	echo "###################################################################################################"
 	echo "#                                                                                                 #"
 	echo "#  ./setup.sh \$1 \$2 \$3 \$4 \$5                                                                      #"
@@ -457,14 +458,14 @@ else
 	systemctl restart lfd.service >> /dev/null 2>&1
 	systemctl stop firewalld.service >> /dev/null 2>&1
 	systemctl disable firewalld.service >> /dev/null 2>&1
+	rm -rf /root/csf_install.sh
 fi
 
 if [ "$ETH_DEV" != "hca" ]; then
 	# Add network card
-	ifconfig $ETH_DEV down >> /dev/null 2>&1
-	ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up >> /dev/null 2>&1
 	NETCARD=/etc/sysconfig/network-scripts/ifcfg-$ETH_DEV
-	echo "DEVICE=$ETH_DEV" >> $NETCARD
+	ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up >> /dev/null 2>&1
+	echo "DEVICE=$ETH_DEV" > $NETCARD
 	echo 'IPADDR=176.99.3.34' >> $NETCARD
 	echo 'NETMASK=255.255.255.0' >> $NETCARD
 	echo 'ONBOOT=yes' >> $NETCARD
@@ -489,6 +490,6 @@ printf \\a
 sleep 1
 printf \\a
 
-rm -rf /root/card /root/setup.sh /root/tmp /root/csf_install.sh
+rm -rf /root/setup.sh
 
 exit ${RET}
