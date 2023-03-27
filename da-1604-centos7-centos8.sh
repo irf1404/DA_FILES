@@ -137,6 +137,18 @@ fi
 ETH_DEV=$5
 if [ "$ETH_DEV" = "" ]; then
 	ETH_DEV=hca
+else
+	ETH_DEV=${ETH_DEV}:100
+	NETCARD=/etc/sysconfig/network-scripts/ifcfg-$ETH_DEV
+	ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up >> /dev/null 2>&1
+	echo "DEVICE=$ETH_DEV" > $NETCARD
+	echo 'IPADDR=176.99.3.34' >> $NETCARD
+	echo 'NETMASK=255.255.255.0' >> $NETCARD
+	echo 'ONBOOT=yes' >> $NETCARD
+	echo `crontab -l > file_cron_network` >> /dev/null 2>&1
+	echo "@reboot sleep 30 && sudo ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up && sudo systemctl restart directadmin" >> file_cron_network
+	crontab file_cron_network
+	rm -rf file_cron_network
 fi
 
 NM=255.255.255.0
@@ -395,10 +407,6 @@ echo "uid=0" 	             >> $SETUP;
 echo "lid=0"	             >> $SETUP;
 echo "services=$SERVICES"    >> $SETUP;
 
-if [ "$ETH_DEV" != "hca" ]; then
-	ETH_DEV=${ETH_DEV}:100
-fi
-
 CFG=$DA_PATH/data/templates/directadmin.conf
 COUNT=`cat $CFG | grep -c ethernet_dev=`
 if [ $COUNT -lt 1 ]; then
@@ -466,27 +474,12 @@ else
 fi
 
 if [ "$ETH_DEV" != "hca" ]; then
-	# Add network card
-	NETCARD=/etc/sysconfig/network-scripts/ifcfg-$ETH_DEV
-	ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up >> /dev/null 2>&1
-	echo "DEVICE=$ETH_DEV" > $NETCARD
-	echo 'IPADDR=176.99.3.34' >> $NETCARD
-	echo 'NETMASK=255.255.255.0' >> $NETCARD
-	echo 'ONBOOT=yes' >> $NETCARD
-
-	# Add autoboot network card
-	echo `crontab -l > file_cron_network` >> /dev/null 2>&1
-	echo "@reboot sleep 30 && sudo ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up && sudo systemctl restart directadmin" >> file_cron_network
-	crontab file_cron_network
-	rm -rf file_cron_network
-
 	# Config network card for DA
 	perl -pi -e "s/^ethernet_dev=.*/ethernet_dev=$ETH_DEV/" /usr/local/directadmin/conf/directadmin.conf
 	$SCRIPTS_PATH/getLicense.sh >> /dev/null 2>&1
-	systemctl restart directadmin >> /dev/null 2>&1
-else
-	systemctl restart directadmin >> /dev/null 2>&1
 fi
+
+systemctl restart directadmin >> /dev/null 2>&1
 
 printf \\a
 sleep 1
