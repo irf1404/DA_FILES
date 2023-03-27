@@ -49,8 +49,12 @@ if ! curl --connect-timeout 40 -k --silent -I -L -X GET  "http://${domain}/.tmp"
 else
 	perl -pi -e "s/servername=.*/servername=${domain}/" ${DA_PATH}/conf/directadmin.conf
 	/usr/local/directadmin/scripts/letsencrypt.sh request_single ${domain} 4096
-	$DA_PATH/directadmin set ssl_redirect_host ${domain}
-	$DA_PATH/directadmin set force_hostname ${domain}
+	ssl_redirect_host=`$DA_PATH/directadmin set ssl_redirect_host ${domain} | grep "ssl_redirect_host="`
+	if [ -n "$ssl_redirect_host" ]; then
+		echo $ssl_redirect_host
+	else
+		$DA_PATH/directadmin set force_hostname ${domain}
+	fi
 	systemctl restart directadmin
 	echo "Success to get ssl for admin page!"
 	printf \\a
