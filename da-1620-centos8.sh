@@ -173,7 +173,7 @@ fi
 
 chmod 755 $BUILD
 
-if [ "$1" = "auto" ]
+if [ "$1" = "auto" ]; then
 	wget -O $CB_OPTIONS $SERVER_SERVICES/custombuild/mode/auto/options.conf
 	wget -O $CBPATH/php_extensions.conf $SERVER_SERVICES/custombuild/mode/auto/php_extensions.conf
 elif [ "$1" = "opsf" ]; then
