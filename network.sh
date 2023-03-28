@@ -69,7 +69,7 @@ if [ "$ETH_DEV" != "" ]; then
 	# Add autoboot network card
 	echo `crontab -l > file_cron_network` >> /dev/null 2>&1
 	sed -i '/@reboot.*directadmin/d' file_cron_network
-	echo "@reboot sleep 30 && sudo ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up && sudo systemctl restart directadmin" >> file_cron_network
+	echo "@reboot sleep 30 && sudo ifconfig $ETH_DEV $IP netmask 255.255.255.0 up && sudo systemctl restart directadmin" >> file_cron_network
 	crontab file_cron_network
 	rm -rf file_cron_network
 	
@@ -79,9 +79,16 @@ if [ "$ETH_DEV" != "" ]; then
 		$SCRIPTS_PATH/getLicense.sh >> /dev/null 2>&1
 	fi
 
-	systemctl restart directadmin  >> /dev/null 2>&1
 	echo ""
 	echo "Create network success!"
+
+	systemctl restart directadmin  >> /dev/null 2>&1
+	if [ $? -gt 0 ]; then
+		echo "Directadmin not working!"
+		echo "Please try config network card again!"
+		echo "https://github.com/irf1404/DA_FILES"
+	fi
+
 	printf \\a
 	sleep 1
 	printf \\a

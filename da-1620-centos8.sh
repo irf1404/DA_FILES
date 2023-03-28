@@ -480,6 +480,11 @@ if [ "$ETH_DEV" != "hca" ]; then
 fi
 
 systemctl restart directadmin >> /dev/null 2>&1
+if [ $? -gt 0 ]; then
+	echo "Directadmin not working!"
+	echo "Please try config network card again!"
+	echo "https://github.com/irf1404/DA_FILES"
+fi
 
 printf \\a
 sleep 1
