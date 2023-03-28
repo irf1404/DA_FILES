@@ -82,4 +82,9 @@ if [ "$ETH_DEV" != "" ]; then
 	systemctl restart directadmin  >> /dev/null 2>&1
 	echo ""
 	echo "Create network success!"
+	printf \\a
+	sleep 1
+	printf \\a
+	sleep 1
+	printf \\a
 fi
