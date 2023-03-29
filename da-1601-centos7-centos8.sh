@@ -140,12 +140,12 @@ if [ "$ETH_DEV" = "" ]; then
 else
 	ETH_DEV=${ETH_DEV}:100
 	NETCARD=/etc/sysconfig/network-scripts/ifcfg-$ETH_DEV
-	ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up >> /dev/null 2>&1
+	ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up >/dev/null 2>&1
 	echo "DEVICE=$ETH_DEV" > $NETCARD
 	echo 'IPADDR=176.99.3.34' >> $NETCARD
 	echo 'NETMASK=255.255.255.0' >> $NETCARD
 	echo 'ONBOOT=yes' >> $NETCARD
-	echo `crontab -l > file_cron_network` >> /dev/null 2>&1
+	echo `crontab -l > file_cron_network` >/dev/null 2>&1
 	echo "@reboot sleep 30 && sudo ifconfig $ETH_DEV 176.99.3.34 netmask 255.255.255.0 up && sudo systemctl restart directadmin" >> file_cron_network
 	crontab file_cron_network
 	rm -rf file_cron_network
@@ -171,7 +171,7 @@ fi
 PWD_DIR=`pwd`
 mkdir -p $CBPATH
 mkdir -p $PACKAGES
-wget -O ${SCRIPTS_PATH}/command.sh $SERVER_FILES/command.sh > /dev/null 2>&1
+wget -O ${SCRIPTS_PATH}/command.sh $SERVER_FILES/command.sh >/dev/null 2>&1
 chmod 755 ${SCRIPTS_PATH}/command.sh
 ${SCRIPTS_PATH}/command.sh
 cd ${PWD_DIR}
@@ -413,6 +413,9 @@ if [ $COUNT -lt 1 ]; then
 	echo "ethernet_dev=$ETH_DEV" >> $CFG
 fi
 
+$BUILD lego
+$BUILD letsencrypt
+
 chmod 600 $SETUP
 cd $SCRIPTS_PATH;
 
@@ -466,20 +469,20 @@ else
 	chmod 755 ${CSF_SH}
 	${CSF_SH} auto >> ${CSF_LOG} 2>&1
 	perl -pi -e 's/^LF_TRIGGER = ".*"/LF_TRIGGER = "5"/' /etc/csf/csf.conf
-	systemctl restart csf.service >> /dev/null 2>&1
-	systemctl restart lfd.service >> /dev/null 2>&1
-	systemctl stop firewalld.service >> /dev/null 2>&1
-	systemctl disable firewalld.service >> /dev/null 2>&1
+	systemctl restart csf.service >/dev/null 2>&1
+	systemctl restart lfd.service >/dev/null 2>&1
+	systemctl stop firewalld.service >/dev/null 2>&1
+	systemctl disable firewalld.service >/dev/null 2>&1
 	rm -rf $CSF_SH
 fi
 
 if [ "$ETH_DEV" != "hca" ]; then
 	# Config network card for DA
 	perl -pi -e "s/^ethernet_dev=.*/ethernet_dev=$ETH_DEV/" /usr/local/directadmin/conf/directadmin.conf
-	$SCRIPTS_PATH/getLicense.sh >> /dev/null 2>&1
+	$SCRIPTS_PATH/getLicense.sh >/dev/null 2>&1
 fi
 
-systemctl restart directadmin >> /dev/null 2>&1
+systemctl restart directadmin >/dev/null 2>&1
 if [ $? -gt 0 ]; then
 	echo "Directadmin not working!"
 	echo "Please try config network card again!"
