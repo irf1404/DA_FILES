@@ -415,7 +415,7 @@ fi
 
 chmod 600 $SETUP
 cd $SCRIPTS_PATH;
-
+exit
 ./install.sh
 
 RET=$?
