@@ -17,7 +17,7 @@ yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubuserconten
 yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1620-centos8.sh" > tmp 2>&1 && chmod +x setup.sh
 
 # Install command for Directadmin 1624 centOS7 centOS8 x64
-yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1624-centos7-centos8.sh" > tmp 2>&1 && chmod +x setup.sh
+yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1624-centos7.sh" > tmp 2>&1 && chmod +x setup.sh
 
 # Install command for Directadmin 1624 only centOS8 x64
 yum -y install wget && wget --no-cache -O setup.sh "https://raw.githubusercontent.com/irf1404/DA_FILES/master/da-1624-centos8.sh" > tmp 2>&1 && chmod +x setup.sh
